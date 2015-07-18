@@ -1,6 +1,7 @@
 module Mouse
     ( position, x, y
     , isDown, clicks
+    , left, right
     ) where
 
 {-| Library for working with mouse input.
@@ -13,9 +14,10 @@ module Mouse
 
 -}
 
-import Basics exposing (fst, snd)
+import Basics exposing (fst, snd, (==))
 import Native.Mouse
 import Signal exposing (Signal)
+import Maybe exposing (Maybe(Just, Nothing))
 
 
 {-| The current mouse position. -}
@@ -42,9 +44,16 @@ isDown : Signal Bool
 isDown =
   Native.Mouse.isDown
 
+clicks : Signal Int
+clicks = Native.Mouse.clicks
 
-{-| Always equal to unit. Event triggers on every mouse click. -}
-clicks : Signal ()
-clicks =
-  Native.Mouse.clicks
+buttonClicks : Int -> Signal ()
+buttonClicks button =
+  let buttonFilter b = if b == button then Just () else Nothing
+  in Signal.filterMap buttonFilter () clicks
 
+left : Signal ()
+left = buttonClicks 0
+
+right : Signal ()
+right = buttonClicks 2

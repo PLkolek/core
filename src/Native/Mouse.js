@@ -16,14 +16,14 @@ Elm.Native.Mouse.make = function(localRuntime) {
 
 	var isDown = NS.input('Mouse.isDown', false);
 
-	var clicks = NS.input('Mouse.clicks', Utils.Tuple0);
+	var clicks = NS.input('Mouse.clicks', -1);
 
 	var node = localRuntime.isFullscreen()
 		? document
 		: localRuntime.node;
 
-	localRuntime.addListener([clicks.id], node, 'click', function click() {
-		localRuntime.notify(clicks.id, Utils.Tuple0);
+	localRuntime.addListener([clicks.id], node, 'click', function click(event) {
+		localRuntime.notify(clicks.id, event.button);
 	});
 	localRuntime.addListener([isDown.id], node, 'mousedown', function down() {
 		localRuntime.notify(isDown.id, true);

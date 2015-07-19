@@ -45,7 +45,8 @@ isDown =
   Native.Mouse.isDown
 
 clicks : Signal Int
-clicks = Native.Mouse.clicks
+clicks =
+  Native.Mouse.clicks
 
 buttonClicks : Int -> Signal ()
 buttonClicks button =
@@ -53,7 +54,9 @@ buttonClicks button =
   in Signal.filterMap buttonFilter () clicks
 
 left : Signal ()
-left = buttonClicks 0
+left =
+  buttonClicks 0
 
 right : Signal ()
-right = buttonClicks 2
+right =
+  buttonClicks 2

@@ -2,6 +2,8 @@ module Mouse
     ( position, x, y
     , isDown, clicks
     , left, right
+    , MouseButton
+    , buttonLeft, buttonRight
     ) where
 
 {-| Library for working with mouse input.

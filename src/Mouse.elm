@@ -6,6 +6,12 @@ module Mouse
 
 {-| Library for working with mouse input.
 
+# Representing mouse buttons
+@docs MouseButton
+
+# Specific buttons
+@docs buttonLeft, buttonRight
+
 # Position
 @docs position, x, y
 
@@ -19,6 +25,18 @@ import Native.Mouse
 import Signal exposing (Signal)
 import Maybe exposing (Maybe(Just, Nothing))
 
+
+{-| Integers represent [mouse buttons](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button).
+-}
+type alias MouseButton = Int
+
+{-| -}
+buttonLeft : MouseButton
+buttonLeft = 0
+
+{-| -}
+buttonRight : MouseButton
+buttonRight = 2
 
 {-| The current mouse position. -}
 position : Signal (Int,Int)
@@ -44,9 +62,8 @@ isDown : Signal Bool
 isDown =
   Native.Mouse.isDown
 
-{-| Recently clicked [mouse button](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button).
-Event triggers on every mouse click. -}
-clicks : Signal Int
+{-| Recently clicked mouse button. Event triggers on every mouse click. -}
+clicks : Signal MouseButton
 clicks =
   Native.Mouse.clicks
 
@@ -58,9 +75,9 @@ buttonClicks button =
 {-| Always equal to unit. Event triggers on every left mouse button click. -}
 left : Signal ()
 left =
-  buttonClicks 0
+  buttonClicks buttonLeft
 
-  {-| Always equal to unit. Event triggers on every right mouse button click. -}
+{-| Always equal to unit. Event triggers on every right mouse button click. -}
 right : Signal ()
 right =
-  buttonClicks 2
+  buttonClicks buttonRight

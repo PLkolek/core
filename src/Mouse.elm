@@ -10,7 +10,7 @@ module Mouse
 @docs position, x, y
 
 # Button Status
-@docs isDown, clicks
+@docs isDown, clicks, left, right
 
 -}
 
@@ -44,6 +44,8 @@ isDown : Signal Bool
 isDown =
   Native.Mouse.isDown
 
+{-| Recently clicked [mouse button](https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/button).
+Event triggers on every mouse click. -}
 clicks : Signal Int
 clicks =
   Native.Mouse.clicks
@@ -53,10 +55,12 @@ buttonClicks button =
   let buttonFilter b = if b == button then Just () else Nothing
   in Signal.filterMap buttonFilter () clicks
 
+{-| Always equal to unit. Event triggers on every left mouse button click. -}
 left : Signal ()
 left =
   buttonClicks 0
 
+  {-| Always equal to unit. Event triggers on every right mouse button click. -}
 right : Signal ()
 right =
   buttonClicks 2

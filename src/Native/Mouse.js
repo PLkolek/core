@@ -22,14 +22,12 @@ Elm.Native.Mouse.make = function(localRuntime) {
 		? document
 		: localRuntime.node;
 
-	localRuntime.addListener([clicks.id], node, 'click', function click(event) {
-		localRuntime.notify(clicks.id, event.button);
-	});
 	localRuntime.addListener([isDown.id], node, 'mousedown', function down() {
 		localRuntime.notify(isDown.id, true);
 	});
-	localRuntime.addListener([isDown.id], node, 'mouseup', function up() {
+	localRuntime.addListener([isDown.id, clicks.id], node, 'mouseup', function up(event) {
 		localRuntime.notify(isDown.id, false);
+		localRuntime.notify(clicks.id, event.button);
 	});
 	localRuntime.addListener([position.id], node, 'mousemove', function move(e) {
 		localRuntime.notify(position.id, Utils.getXY(e));
